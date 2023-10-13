@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
 const port = 3000;
-
+const userRoute = require("./routes/user.route");
+const authRoute = require("./routes/auth.route");
 
 dotenv.config();
 
@@ -17,10 +18,8 @@ async function main() {
 
 
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
+app.use("/api/user",userRoute);
+app.use("/api/auth",authRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
