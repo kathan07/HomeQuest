@@ -1,20 +1,27 @@
-const express = require('express')
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
-const app = express()
-const port = 3000
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const app = express();
+const port = 3000;
 
-main().catch(err => console.log(err));
+
+dotenv.config();
+
+
+
+main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(process.env.MONGO);
 }
 
 
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
