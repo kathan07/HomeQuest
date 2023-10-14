@@ -7,8 +7,7 @@ const userRoute = require("./routes/user.route");
 const authRoute = require("./routes/auth.route");
 
 dotenv.config();
-
-
+app.use(express.json());
 
 main().catch((err) => console.log(err));
 
@@ -24,3 +23,4 @@ app.use("/api/auth",authRoute);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
