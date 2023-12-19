@@ -5,9 +5,11 @@ const app = express();
 const port = 3000;
 const userRoute = require("./routes/user.route");
 const authRoute = require("./routes/auth.route");
+const cookieParser = require('cookie-parser') ;
 
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser());  
 
 main().catch((err) => console.log(err));
 
