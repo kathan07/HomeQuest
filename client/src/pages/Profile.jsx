@@ -12,6 +12,9 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -30,6 +33,7 @@ export default function Profile() {
   // allow write: if
   // request.resource.size < 2 * 1024 * 1024 &&
   // request.resource.contentType.matches('image/.*')
+
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
@@ -53,15 +57,20 @@ export default function Profile() {
       }
     );
   };
+
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
     }
   }, [file]);
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +93,24 @@ export default function Profile() {
       setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+    }
+  };
+
+
+  const handleDeleteUser = async ()=>{
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
     }
   };
 
@@ -148,7 +175,7 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete account</span>
+        <span onClick={handleDeleteUser}  className="text-red-700 cursor-pointer">Delete account</span>
         <span className="text-red-700 cursor-pointer">Sign out</span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
