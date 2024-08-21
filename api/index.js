@@ -15,7 +15,7 @@ app.use(cookieParser());
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(process.env.MONGO);
+  await mongoose.connect(process.env.MONGODB);
 }
 
 app.use("/api/user", userRoute);
